@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        #result { display: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Enter Your Details</h2>
+    <div id="form-section">
+        <form id="userForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div id="result">
+        <h2>Your Information</h2>
+        <p><strong>Name:</strong> <span id="displayName"></span></p>
+        <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+        <p><strong>Device Info:</strong> <span id="userAgent"></span></p>
+        <p><strong>Platform:</strong> <span id="platform"></span></p>
+        <p><strong>Language:</strong> <span id="language"></span></p>
+        <p><strong>IP Address:</strong> <span id="ip"></span></p>
+        <br>
+        <button onclick="reloadPage()">Submit Again</button>
+    </div>
+
+    <script>
+        document.getElementById("userForm").onsubmit = function(event) {
+            event.preventDefault();
+
+            // Fill in basic info
+            document.getElementById("displayName").textContent = document.getElementById("name").value;
+            document.getElementById("displayEmail").textContent = document.getElementById("email").value;
+            document.getElementById("userAgent").textContent = navigator.userAgent;
+            document.getElementById("platform").textContent = navigator.platform;
+            document.getElementById("language").textContent = navigator.language;
+
+            // Fetch IP from get_ip.php
+            fetch("get_ip.php")
+                .then(response => response.text())
+                .then(ip => {
+                    document.getElementById("ip").textContent = ip;
+                })
+                .catch(error => {
+                    document.getElementById("ip").textContent = "Error fetching IP";
+                    console.error(error);
+                });
+
+            // Show result
+            document.getElementById("form-section").style.display = "none";
+            document.getElementById("result").style.display = "block";
+        };
+
+        function reloadPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+/* =========================
+   Global Styles
+========================= */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #000;
+  color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* =========================
+   Top Bar (Below Navbar)
+========================= */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  padding: 15px 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255, 152, 0, 0.4);
+}
+
+.left-section,
+.center-section,
+.right-section {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.left-section {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.center-section {
+  justify-content: center;
+  position: relative;
+}
+
+.right-section {
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+/* =========================
+   Navbar (Scroll Reveal)
+========================= */
+.navbar {
+  position: fixed;
+  top: -80px; /* hidden above screen */
+  left: 0;
+  width: 100%;
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(8px);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: top 0.4s ease-in-out;
+}
+
+.navbar.visible {
+  top: 0; /* slide down when visible */
+}
+
+.navbar .logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar nav a:hover {
+  color: #ff3c00;
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff3c00, #ff6a00);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 60, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect with anime-style glow */
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ff6a00, #ff3c00);
+  transform: scale(1.07);
+  box-shadow: 0 0 18px rgba(255, 60, 0, 0.6);
+}
+
+/* Active/click animation */
+.logout-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 10px rgba(255, 60, 0, 0.4);
+}
+
+/* Mobile friendly adjustments */
+@media (max-width: 768px) {
+  .logout-btn {
+    padding: 8px 18px;
+    font-size: 0.95em;
+  }
+}
+
+
+/* =========================
+   Welcome & Profile
+========================= */
+.welcome-text {
+  color: #bbb;
+  font-size: 14px;
+}
+
+.nav-icon {
+  font-size: 22px;
+  color: #ff9800;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.nav-icon:hover {
+  color: #ffa733;
+  transform: scale(1.2);
+}
+
+/* =========================
+   Search Box
+========================= */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #111;
+  border-radius: 25px;
+  padding: 6px 15px;
+  border: 1px solid #ff9800;
+  width: 250px;
+  transition: box-shadow 0.3s ease;
+}
+.search-box:focus-within {
+  box-shadow: 0 0 10px #ff9800;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 100%;
+  font-size: 14px;
+}
+.search-icon {
+  color: #ff9800;
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+#suggestions {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  background: #222;
+  border: 1px solid #ff9800;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10;
+}
+#suggestions div {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#suggestions div:hover {
+  background: #333;
+}
+
+/* =========================
+   Dropdown (Filter Menu)
+========================= */
+.dropdown {
+  position: relative;
+}
+
+.dropdown > .filter-btn {
+  background: #ff9800;
+  color: #000;
+  border-radius: 25px;
+  padding: 8px 15px;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.dropdown > .filter-btn:hover {
+  background: #ffa733;
+  transform: scale(1.05);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: #111;
+  border: 1px solid #ff9800;
+  border-radius: 6px;
+  margin-top: 10px;
+  z-index: 50;
+  min-width: 180px;
+  overflow: hidden;
+}
+.dropdown.open .dropdown-content {
+  display: block;
+}
+.dropdown-content button {
+  width: 100%;
+  background: none;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.dropdown-content button:hover {
+  background: #ff9800;
+  color: #000;
+}
+
+/* =========================
+   Continue Watching Section
+========================= */
+.continue-section {
+  margin-top: 10px;
+  background: #111;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #ff9800;
+}
+.continue-section p {
+  margin: 0 0 10px;
+}
+.continue-section button {
+  background: #ff9800;
+  color: #000;
+  border-radius: 25px;
+  padding: 8px 15px;
+  transition: background 0.3s ease;
+}
+.continue-section button:hover {
+  background: #ffa733;
+}
+
+/* =========================
+   Anime Categories & Grid
+========================= */
+.category-heading {
+  font-size: 22px;
+  margin: 50px 40px 20px;
+  color: #ff9800;
+  border-left: 4px solid #ff9800;
+  padding-left: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 0 40px;
+}
+
+.anime-card {
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1a1a1a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.anime-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.anime-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+}
+
+.anime-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.anime-info {
+  padding: 10px;
+}
+
+.anime-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.anime-genre {
+  color: #aaa;
+  font-size: 13px;
+}
+
+/* =========================
+   Highlight (Search)
+========================= */
+.highlight {
+  outline: 2px solid #ff9800;
+  box-shadow: 0 0 20px #ff9800;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* =========================
+   Footer
+========================= */
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #111;
+  color: #bbb;
+  margin-top: 50px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    padding: 15px 20px;
+  }
+
+  .center-section {
+    justify-content: center;
+  }
+
+  .search-box {
+    width: 200px;
+  }
+
+  .anime-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    padding: 0 20px;
+  }
+
+  .category-heading {
+    margin-left: 20px;
+  }
+}
+
+
+/* =========================
+   Anime Grid & Cards
+========================= */
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 0 40px;
+}
+
+.anime-card {
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1a1a1a; /* dark card */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6); /* subtle shadow */
+  transition: transform 0.2s ease;
+  text-align: center;
+}
+
+.anime-title {
+  color: #fff; /* light text on dark card */
+}
+
+.anime-genre {
+  color: #aaa; /* lighter text */
+}
+
+
+.anime-card:hover {
+  transform: scale(1.05);
+}
+
+.anime-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.anime-info {
+  padding: 10px;
+}
