@@ -1,101 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Anime World</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="styles_m.css" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #0f0f0f, #1a1a1a);
-      color: #f5f5f5;
+      background-color: #0f0f0f;
+      /* Dark fallback */
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      overflow: hidden;
+      /* Prevent scrollbars from moving images */
+      position: relative;
+    }
+
+    /* Dynamic Background Container */
+    #bg-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      /* Let clicks pass through */
+    }
+
+    .bg-card {
+      position: absolute;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      object-fit: cover;
+      /* Remove default animation here, we will handle fade in/out via JS/Transitions 
+         so we can calculate layout before expanding */
+      transition: opacity 1s ease, transform 6s ease-in-out;
     }
 
     .form-container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
+      background: rgba(15, 15, 15, 0.9);
+      backdrop-filter: blur(15px);
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255, 152, 0, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
       max-width: 400px;
       width: 90%;
+      animation: fadeIn 0.8s ease-out;
+      z-index: 10;
+      /* Above background */
+      position: relative;
+      /* Ensure z-index works */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h2 {
       text-align: center;
+      margin-bottom: 30px;
+      color: #ff9800;
+      font-size: 2em;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      position: relative;
       margin-bottom: 20px;
-      color: #ffffff;
+      width: 100%;
     }
 
     input {
       width: 100%;
+      box-sizing: border-box;
       padding: 12px 15px;
-      margin-bottom: 15px;
-      border: none;
+      border: 1px solid #333;
       border-radius: 8px;
       font-size: 1em;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.05);
       color: #fff;
       outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:not([type="password"]) {
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      margin-bottom: 0;
+      padding-right: 45px;
+    }
+
+    input:focus {
+      border-color: #ff9800;
+      box-shadow: 0 0 8px rgba(255, 152, 0, 0.3);
     }
 
     input::placeholder {
-      color: #ccc;
+      color: #888;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #aaa;
+      font-size: 1.1em;
+      transition: color 0.3s ease;
+    }
+
+    .toggle-password:hover {
+      color: #ff9800;
     }
 
     button {
       width: 100%;
       padding: 12px;
-      background-color: #3b82f6;
+      background: linear-gradient(135deg, #ff3c00, #ff6a00);
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1em;
+      border-radius: 25px;
+      font-size: 1.1em;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 15px rgba(255, 60, 0, 0.3);
     }
 
     button:hover {
-      background-color: #2563eb;
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 60, 0, 0.5);
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     .register-link {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 0.95em;
+      color: #ccc;
     }
 
     .register-link a {
-      color: #3b82f6;
+      color: #ff9800;
       text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     .register-link a:hover {
+      color: #ffc107;
       text-decoration: underline;
     }
 
     #success-message {
-      background: #22c55e22;
+      background: rgba(34, 197, 94, 0.2);
       border: 1px solid #22c55e;
       border-radius: 8px;
       color: #22c55e;
       padding: 10px;
       text-align: center;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
+
 <body>
-  <div class="form-container">
+
+  <div id="bg-container"></div>
+
+  <div class="form-container" id="login-form">
     <h2>Login</h2>
 
     <div id="success-message" style="display: none;">
@@ -104,7 +205,12 @@
 
     <form action="login.php" method="POST">
       <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
+
+      <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password" required />
+        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+      </div>
+
       <button type="submit">Login</button>
       <div class="register-link">
         Don’t have an account? <a href="register.html">Register here</a>
@@ -113,10 +219,154 @@
   </div>
 
   <script>
+    /* ============================
+       Dynamic Background Logic
+       ============================ */
+    const images = [
+      "AOT.jpg", "ASV.jpg", "D_N.jpg", "D_S.jpg", "MHA.jpg",
+      "O_P.jpg", "PA.jpg", "SG.jpg", "TR.jpg", "YourName.jpg",
+      "bleach.jpg", "clannad.jpg", "dragon.jpg", "evangelion.jpg",
+      "gintama.jpg", "hunter.jpg", "jjk.jpg", "magi.jpg",
+      "monster.jpg", "naruto.jpg", "psycho.jpg", "sao.jpg",
+      "tokyoghoul.jpg", "toradora.jpg"
+    ];
+
+    const bgContainer = document.getElementById('bg-container');
+    const formElement = document.getElementById('login-form');
+
+    // Store active cards to check collisions
+    let activeCards = [];
+
+    function isOverlapping(rect1, rect2) {
+      return !(rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom);
+    }
+
+    function getFormRect() {
+      // Add padding to the form rect to give it some breathing room
+      const rect = formElement.getBoundingClientRect();
+      const padding = 20;
+      return {
+        top: rect.top - padding,
+        bottom: rect.bottom + padding,
+        left: rect.left - padding,
+        right: rect.right + padding
+      };
+    }
+
+    function spawnCard() {
+      const img = document.createElement('img');
+      img.src = images[Math.floor(Math.random() * images.length)];
+      img.classList.add('bg-card');
+
+      // Determine dimensions first (approximate since image isn't loaded, 
+      // but we force width so height is proportional. Let's assume 3:2 or 2:3 ratio max)
+      const width = 200 + Math.random() * 100; // 200px - 300px
+      const height = width * 1.5; // Assume max height to be safe for collision
+      img.style.width = width + 'px';
+
+      const maxAttempts = 15;
+      let validPosition = false;
+      let x, y;
+
+      const formRect = getFormRect();
+      const viewportW = window.innerWidth;
+      const viewportH = window.innerHeight;
+
+      for (let i = 0; i < maxAttempts; i++) {
+        x = Math.random() * (viewportW - width);
+        y = Math.random() * (viewportH - height);
+
+        const cardRect = {
+          left: x,
+          right: x + width,
+          top: y,
+          bottom: y + height
+        };
+
+        // Check form collision
+        if (isOverlapping(cardRect, formRect)) continue;
+
+        // Check other cards collision
+        let overlapCard = activeCards.some(other => isOverlapping(cardRect, other.rect));
+        if (overlapCard) continue;
+
+        validPosition = true;
+
+        // Save to active cards immediately
+        activeCards.push({ id: img, rect: cardRect });
+        break;
+      }
+
+      if (!validPosition) {
+        // Could not find space, skip this spawn
+        img.remove();
+        return;
+      }
+
+      img.style.left = x + 'px';
+      img.style.top = y + 'px';
+
+      // Random Rotation
+      const rot = Math.random() * 20 - 10;
+      img.style.transform = `scale(0.8) rotate(${rot}deg)`;
+
+      bgContainer.appendChild(img);
+
+      // Animate In
+      requestAnimationFrame(() => {
+        img.style.opacity = '0.6'; // fade in partial
+        img.style.transform = `scale(1) rotate(${rot}deg)`;
+      });
+
+      // Cleanup
+      setTimeout(() => {
+        // Fade out
+        img.style.opacity = '0';
+        img.style.transform = `scale(1.1) rotate(${rot}deg) translateY(-20px)`;
+      }, 4000); // Start fade out sooner
+
+      setTimeout(() => {
+        img.remove();
+        // Remove from active list
+        activeCards = activeCards.filter(c => c.id !== img);
+      }, 6000);
+    }
+
+    // Initial spawn
+    spawnCard();
+    spawnCard();
+
+    // Loop
+    setInterval(() => {
+      // Small random delay variation
+      const count = Math.random() < 0.5 ? 1 : 2;
+      for (let i = 0; i < count; i++) {
+        setTimeout(spawnCard, i * 1000);
+      }
+    }, 4500);
+
+    /* ============================
+       Password Toggle logic
+       ============================ */
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function (e) {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+      this.classList.toggle('fa-eye');
+    });
+
+    // Check registration param
     const params = new URLSearchParams(window.location.search);
     if (params.get("registered") === "1") {
       document.getElementById("success-message").style.display = "block";
     }
   </script>
 </body>
+
 </html>
